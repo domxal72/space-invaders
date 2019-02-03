@@ -16,3 +16,20 @@ function Stateless( props ) {
 }
 
 export default Stateless
+
+
+// Muzu to zapsat i jako arrow function, kterou priradim do promenny a tu pak pouziju
+// const Stateless = ( props ) => {
+
+//     const { nameProp } = props
+  
+//     console.log(nameProp)
+  
+//     return (
+//       <div>
+//         porno s negrama a {nameProp}
+//       </div>
+//     )
+//   }
+
+//   export default Stateless
