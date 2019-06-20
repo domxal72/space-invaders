@@ -1,38 +1,69 @@
 @import './styles/vars';
+@import './styles/colors';
+@import './styles/default';
+
 
 .App {
-  text-align: center;
+  padding-top: 100px; 
+  max-width: $page_wrap;
+  display: block;
+  margin: auto;
+  background: $bg_color;
+  min-height: 2000px;
 }
 
-.App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 40vmin;
+img {
+  display: block;
+  width: 100%;
+  max-width: fit-content;
+  height: auto;
+  margin: auto;
 }
 
-.App-header {
-  background-color: $bg_color;
-  min-height: 100vh;
+header {
+  position: relative;
+  width: 100%;
+}
+
+.logo-container {
+  max-width: $logo_width;
+  
+  img {
+    width: 100%;
+  }
+}
+
+li {
+  display: inline-block;
+}
+
+.main-nav-container {
+  position: fixed;
+  width: 100%;
+  top: 0;
+  left: 0;
+  z-index: 1;
+}
+
+.main-nav {
+  position: relative;
+  margin: auto;
+  width: 100%;
+  max-width: $page_wrap;
+  background: $nav_bg_color;
   display: flex;
-  flex-direction: column;
+  justify-content: space-between;
   align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
 }
 
-.App-link {
-  color: #61dafb;
+.main-menu {
+  display: flex;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.menu-item {
+  padding: 10px;
 }
 
-.red-baron {
-  color: red;
+.active-nav-item {
+  text-decoration: underline;
 }

@@ -1,67 +1,140 @@
 import React, { Component } from 'react';
+
+// SCSS global styles
 import './App.scss';
 
+// React Router
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+
+// PropTypes library
+import PropTypes from 'prop-types';
+
+// additional NPM libraries
+import moment from 'moment';
+import axios from 'axios'
+
 import Header from './components/Header'
-import Test from "./components/Test";
-import Stateless from "./components/Stateless";
-import AddHyborian from "./components/AddHyborian";
+
+// Page Components
+import Home from "./components/pages/Home";
+import About from "./components/pages/About";
+import APOD from "./components/pages/APOD";
+import Maps from "./components/pages/Maps";
+import MarsRover from "./components/pages/MarsRover";
+import EPIC from "./components/pages/EPIC";
 
 class App extends Component {
   constructor(){
     super()
-    this.testFun = this.testFun.bind(this);
+
+    // Initial App level state
+    this.state = {
+      loading: false,
+      apodState: {
+        date: new Date(),
+        data: {},
+      },
+      epicState: {
+        date: new Date(),
+        data: [],
+      },
+      marsRoverState: {
+        date: new Date(),
+        data: {},
+        type: 'natural'
+      }
+    }
+
   }
 
-  state = {
-    hyborians: [ { name: 'Thulsa', power: 'snakes' },
-                 { name: 'Conan', power: 'steel' }
-    ]
+
+  // APOD methods
+  handleChange = (date) => {
+    this.setState({ apodState: { date: date, data: this.state.apodState.data } });
+    console.log(this.state.apodState.data)
   }
 
-  addHyborian = () => {
-    let thorgrim = {name: 'Thorgrim', power: 'Hammer'};
-    // let newHybs = this.state.hyborians.push(thorgrim); // takhle by to taky slo ale je to bad practice!!!
-    let newHybs = [...this.state.hyborians, thorgrim]; // takhle by to taky slo ale je to bad practice!!!
-    this.setState({
-      hyborians: newHybs
+  handleChangeEpic = (date) => {
+    this.setState({ epicState: { date: date, data: this.state.epicState.data } }, this.getEpic );
+    console.log(this.state.epicState.data)
+  }
 
-      // newHybs: newHybs
+  getApod = () => {
+ 
+    let formatedDate = moment(this.state.apodState.date).format('YYYY-MM-DD');
+
+    axios.get(`https://api.nasa.gov/planetary/apod?date=${formatedDate}&api_key=${process.env.REACT_APP_NASA_API_KEY}`)
+    .then( (res) => {
+      console.log(res);
+      this.setState({ apodState: { date: this.state.apodState.date, data: res.data} })
     })
-    console.log(newHybs);
   }
 
-  testFun = (test) => {
-    console.log(test)
+  prevApod = () => {
+    let prevDay = moment(this.state.apodState.date).subtract(1, 'days')._d
+    this.setState({ apodState: { date: prevDay, data: {} } }, this.getApod);
   }
+
+  nextApod = () => {
+    let nextDay = moment(this.state.apodState.date).add(1, 'days')._d
+    this.setState({ apodState: { date: nextDay, data: {} } }, this.getApod);
+  }
+
+  // EPIC methods
+  getEpic = () => {
+
+    let formatedDate = moment(this.state.epicState.date).format('YYYY-MM-DD');
+
+    fetch( `https://api.nasa.gov/EPIC/api/natural/date/${formatedDate}?api_key=${process.env.REACT_APP_NASA_API_KEY}` )
+      .then( (res) => {
+        // console.log(res)
+        return res.json()
+      })
+      .then(data => {
+        console.log(data)
+        this.setState({ epicState: { date: this.state.epicState.date, data: data } })
+        console.log(this.state.epicState)
+      })
+  }
+
 
   render() {
     return (
-      <div className="App">
-        <header className="App-header">
-          <p className="red-baron">
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
+      <Router>
+        <div className="App">
           <Header />
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-         <Test hyborians={this.state.hyborians}>
-         test2
-         </Test>
-         <Stateless nameProp="subotai" />
-         {/* <button onClick={ () => { this.testFun('ha!') } }>hoj</button> */}
-         {/* <button onClick={function() {this.testFun('ha!')} }>hoj</button> */}
-         <button onClick={ this.testFun.bind(this,'ha!') }>hoj</button>
-        </header>
-        <AddHyborian addHyborian={this.addHyborian} />
-      </div>
+          <Switch>
+
+            <Route exact path="/" component={Home} />
+
+            <Route path="/about" render={ props => (
+              <About testProp={"mrtvej brouk"} {...props}/>
+            ) } testProp={"mrtvej brouk"} /> 
+
+            <Route path="/apod" render={ props => (
+              <APOD apodState={this.state.apodState} getApod={this.getApod} prevApod={this.prevApod} nextApod={this.nextApod} handleChange={this.handleChange} />
+            ) } />
+
+            <Route path="/marsrover" component={MarsRover} />
+            {/* <Route path="/map" component={Maps} dat={this.state.chan} chanfun={this.chanfun}></Route> */}
+
+            <Route path="/map" render={ props => (
+              <Maps dat={this.state} chanfun={this.chanfun} />
+              )
+            } />
+            <Route path="/epic" render={ props => (
+              <EPIC epicState={this.state.epicState} getEpic={this.getEpic} handleChange={this.handleChangeEpic} />
+            ) } />
+
+          </Switch>
+        </div>
+      </Router>
     );
   }
+}
+
+App.propTypes = {
+  APOD: PropTypes.object,
 }
 
 export default App;

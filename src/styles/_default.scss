@@ -1,0 +1,18 @@
+body {
+  background: $body_color;
+  margin: 0;
+  padding: 0;
+}
+
+a {
+  color: white;
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+ul, li {
+  list-style-type: none;
+}
