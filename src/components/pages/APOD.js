@@ -1,35 +1,38 @@
-import React  from 'react'
-import DatePicker from 'react-datepicker';
-import ApodData from '../ApodData';
-import moment from 'moment';
-import axios from 'axios'
+import React, { useContext } from 'react';
 
-// Import CSS styles for react-datepicker
+// Components
+import ApodData from '../ApodData';
+import DatePicker from 'react-datepicker';
+
+// Datepicker CSS styles
 import "react-datepicker/dist/react-datepicker.css";
 
-// CSS Modules, react-datepicker-cssmodules.css
-// import 'react-datepicker/dist/react-datepicker-cssmodules.css';
+// Contexts
+import { ApodContext } from '../../contexts/ApodProvider';
 
-const APOD = (props) => {
+const Apod = (props) => {
+
+  const { apodState, changeState, getApod, handleChange } = useContext(ApodContext)
+
+  const { date } = apodState
 
   return (
     <div>
-      <button className="prev" onClick={props.prevApod}>Prev</button>
-      <button className="next" onClick={props.nextApod}>Next</button>
-      <button onClick={props.getApod}>clickuju</button>
+      <button onClick={getApod}>clickuju</button>
       <DatePicker
-        dateFormat="yyyy/MM/dd"
-        selected={props.apodState.date}
-        onChange={props.handleChange}
-        onClick={props.handleChange}
-        showMonthDropdown
-        showYearDropdown
-        dropdownMode="select"
-      />
-      <ApodData dateSelected={props.apodState.date} apodData={props.apodState.data} prevApod={props.prevApod} nextApod={props.nextApod}  />
-      
+          dateFormat="yyyy/MM/dd"
+          selected={date}
+          onChange={handleChange}
+          onClick={handleChange}
+          showMonthDropdown
+          showYearDropdown
+          dropdownMode="select"
+          minDate={apodState.minDate}
+          maxDate={new Date()}
+        />
+        <ApodData />
     </div>
   )
 }
 
-export default APOD
+export default Apod

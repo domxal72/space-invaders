@@ -6,18 +6,7 @@ import { Link } from 'react-router-dom';
 
  class Header extends Component {
 
-  state = {
-    continent: 'Hyboria',
-    txt: 'of Conan'
-  }
-
-
   render() {
-
-    const styleObj = {
-      width: '600px',
-      height: '400px',
-    };
 
     return (
       <React.Fragment>
@@ -29,11 +18,11 @@ import { Link } from 'react-router-dom';
                 <ul className="main-menu">
                   <NavItem linkPath="/" linkName="home"/>
                   <NavItem linkPath="/about" linkName="about"/>
-                  <NavItem linkPath="/apod" linkName="apod"/>
+                  <NavItem linkPath="/apod" linkName="APOD"/>
                   <NavItem linkPath="/marsrover" linkName="mars rover"/>
                   <NavItem linkPath="/map" linkName="map"/>
                   <NavItem linkPath="/epic" linkName="EPIC"/>
-
+                  <NavItem linkPath="/testcontext" linkName="Test Content"/>
                 </ul>
               </div>
             </nav>

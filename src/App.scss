@@ -37,6 +37,11 @@ li {
   display: inline-block;
 }
 
+.d-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr)
+}
+
 .main-nav-container {
   position: fixed;
   width: 100%;

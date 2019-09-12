@@ -1,67 +1,49 @@
-import React, { Component } from 'react'
-import moment from 'moment'
+import React from 'react'
+import DatePicker from 'react-datepicker';
 
-export class MarsRover extends Component {
+const MarsRover = (props) => {
+    
+  let roverList = props.roverState.rover.map( (item, index) => (
+    <option value={index}>{item}</option>
+  ) )
 
-  constructor(props){
-    super(props)
-    this.state = {img: ''}
+  let cameraList = props.roverState.camera.map( (item, index) => (
+    <option value={index}>{item}</option>
+  ) )
+
+  var photoList;
+  if (!props.roverState.data.photos) {
+    photoList = 'nejsou';
+  } else {
+    photoList = props.roverState.data.photos.map( (item, index) => (
+      <li key={item.id}><img src={item.img_src} alt=""/></li>
+    ) )
   }
 
-  componentWillMount() {
-
-    let rover = 'curiosity/photos?'
-    let dateFormat = 'earth_date=' + moment('2015-07-02').format('YYYY-MM-DD');
-    let camera = ''
-
-    // let nasaEPICUri = 'https://api.nasa.gov/EPIC/api/natural/images?api_key=Z4oICfPhISVcGV2LpbEyVcnU0suwjqDWXSgPPohO'
-    // let nasaEPICUri = 'https://api.nasa.gov/mars-photos/api/v1/rovers/curiosity/photos?earth_date=2015-6-3&api_key=Z4oICfPhISVcGV2LpbEyVcnU0suwjqDWXSgPPohO'
-    // let nasaEPICUri = 'https://api.nasa.gov/mars-photos/api/v1/rovers/curiosity/photos?earth_date=2015-6-3&api_key=Z4oICfPhISVcGV2LpbEyVcnU0suwjqDWXSgPPohO'
-    let marsRoverUri = 'https://api.nasa.gov/mars-photos/api/v1/rovers/'
-    
-    const nasaApiKey = '&api_key=Z4oICfPhISVcGV2LpbEyVcnU0suwjqDWXSgPPohO';
-
-    
-
-    // let fetchQuery = nasaEPICUri + dateFormat
-    let fetchQuery = marsRoverUri + rover + dateFormat + nasaApiKey
-
-    fetch( fetchQuery )
-
-      // .then( res => res.json())
-      // .then( data => this.setState({apodData: data }) )
-
-      .then( (res) => {
-        console.log(res)
- 
-        return res.json()
-      })
-
-
-      .then( (data) => {
-        console.log(data.photos[0].img_src)
-        this.setState({ img: data.photos[0].img_src })
-      }) 
-
-  }
-
-  render() {
-
-    var img
-    if ( this.state.img !== '' ){
-      img = this.state.img
-    } else {
-      img = null
-    }
-    
-
-    return (
-      <div>
-        <img src={this.state.img} alt=""/>
-        OHOJ
+  return (
+    <div>
+      <img src="" alt=""/>
+      <select name="" id="" onChange={props.selectRover} >
+        {roverList}
+      </select>
+      <select name="" id="" onChange={props.selectCamera} >
+        {cameraList}
+      </select>
+      <DatePicker
+        dateFormat="yyyy/MM/dd"
+        selected={props.roverState.date}
+        onChange={props.handleChange}
+        onClick={props.handleChange}
+        showMonthDropdown
+        showYearDropdown
+        dropdownMode="select"
+      />
+      <button onClick={props.getMarsRover}>Mars!</button>
+      <div className="d-grid">
+        {photoList}
       </div>
-    )
-  }
+    </div>
+  )
 }
 
 export default MarsRover

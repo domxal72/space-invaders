@@ -1,11 +1,18 @@
-import React from 'react';
+import React, { useContext } from 'react';
 
-const ApodData = (props) => {
+// Components
+import Loader from './Loader'
+import InfoMsg from './InfoMsg';
 
-  let apodObj = props.apodData;
+// Contexts
+import { ApodContext } from '../contexts/ApodProvider';
+
+const ApodTestChild = (props) => {
+
+  const { apodState: { data: apodData }, generalState } = useContext(ApodContext)
 
   // Destructuring
-  let { title, date, url, explanation, media_type } = apodObj;
+  let { title, date, url, explanation, media_type } = apodData;
 
   let media = '';
 
@@ -16,15 +23,19 @@ const ApodData = (props) => {
       media = <img src={url} alt=""/>;
       break;
     case 'video':
-      media = <iframe width="560" height="315" src={apodObj.url} frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+      media = <iframe title="apod-video-mime-type" width="100%" height="500" src={url} frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
       break;
     default:
-      media = 'unidetified MIME-type';
+      media = 'unidentified MIME-type';
+  }
+
+  if(generalState.loading) {
+    return <Loader />
   }
     
   return (
     <div style={apodStyle}>
-      { apodObj.title ? (
+      { title ? (
         <div>
           <div>{media}</div>
           <h1>{title}</h1>
@@ -35,9 +46,11 @@ const ApodData = (props) => {
         ) : ( 
         <p>select APOD date</p>
         )
-      } 
+      }
+      <InfoMsg infoMsg={generalState.infoMsg} />
+      
     </div>
   )
 }
 
-export default ApodData
+export default ApodTestChild
