@@ -3,8 +3,7 @@ import React from 'react'
 function About(props) {
   return (
     <div>
-      jo tady je to hodne about
-      <p>{props.testProp}</p>
+      about
     </div>
   )
 }

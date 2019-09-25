@@ -23,10 +23,14 @@ const GeneralProvider = (props) => {
     setGeneralState({ ...generalState, infoMsg: {msg, type} })
   } 
 
+  const removeInfoMessage = () => {
+    setGeneralState({ ...generalState, infoMsg: null })
+  } 
+
   return (
     <GeneralContext.Provider
       value={
-        { generalState, setLoading, removeLoading, showInfoMessage }
+        { generalState, setLoading, removeLoading, showInfoMessage, removeInfoMessage }
       }
     >
     {props.children}

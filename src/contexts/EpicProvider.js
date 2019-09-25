@@ -5,7 +5,6 @@ import { GeneralContext } from './GeneralProvider';
 
 export const EpicContext = createContext();
 
-
 const EpicProvider = (props) => {
 
   const initialState = {
@@ -13,61 +12,57 @@ const EpicProvider = (props) => {
     date: new Date(),
     data: [],
     type: ['natural', 'enhanced'],
-    typeActive: 0
+    typeLink: ['1b', 'RGB'],
+    typeActive: 0,
+    currentSlide: 0,
   }
 
   const [ epicState, setEpicState ] = useState(initialState)
 
   const { generalState, setLoading, removeLoading, showInfoMessage } = useContext(GeneralContext)
 
-  console.log(generalState)
-  console.log(epicState.type[epicState.typeActive])
-  // console.log(GeneralContext)
+  const { date, type, typeActive, currentSlide } = epicState
+
+  const handleFullImage = (e) => {
+    setEpicState({ ...epicState, currentSlide: parseInt(e.target.dataset.imgIndex) })
+  }
 
   const handleChange = (date) => {
     setEpicState({ ...epicState, date: date });
   }
 
-  const setEpicType = (selectedType) => {
+  const setType = (selectedType) => {
     setEpicState({ ...epicState, typeActive: parseInt(selectedType) })
-    console.log(selectedType)
-    // getEpic(); // Tohle nejak nefunguje
+  }
+
+  const startSlideShow = () => {
+    setEpicState({ ...epicState, currentSlide: currentSlide + 1 })
   }
 
   const getEpic = () => {
 
-    let formatedDate = moment(epicState.date).format('YYYY-MM-DD');
+    let formatedDate = moment(date).format('YYYY-MM-DD');
 
     setLoading();
 
-    if (epicState.typeActive === 0 ) {
-      var type = 'natural';
-    } if (epicState.typeActive === 1) {
-      var type = 'enhanced';
-    } else {
-      var type = 'natural';
-    }
-
-    // axios.get( `https://api.nasa.gov/EPIC/api/${epicState.type[epicState.typeActive]}/date/${formatedDate}?api_key=${process.env.REACT_APP_NASA_API_KEY}` )
-    axios.get( `https://api.nasa.gov/EPIC/api/${type}/date/${formatedDate}?api_key=${process.env.REACT_APP_NASA_API_KEY}` )
+    axios.get( `https://api.nasa.gov/EPIC/api/${type[typeActive]}/date/${formatedDate}?api_key=${process.env.REACT_APP_NASA_API_KEY}` )
       .then( (res) => {
         console.log(res.data)
-        setEpicState({ ...epicState, data: res.data })
+        setEpicState({ ...epicState, data: res.data, currentSlide: 0 })
       })
       .then( removeLoading() )
       .catch( () => {
           showInfoMessage('Sorry, no EPIC data for selected date', 'not-found');
-          setEpicState({ ...epicState, data: {} })
+          setEpicState({ ...epicState, data: [] })
           console.log('fetch error')
         }
       )
-    
   }
 
     return (
       <EpicContext.Provider
         value={
-          { epicState, getEpic, handleChange, generalState, setEpicType }
+          { epicState, getEpic, handleChange, generalState, setType, startSlideShow, handleFullImage, setEpicState }
         }
       >
         {props.children}
@@ -76,3 +71,4 @@ const EpicProvider = (props) => {
 }
 
 export default EpicProvider
+

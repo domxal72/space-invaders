@@ -2,9 +2,7 @@ import React, { Component } from 'react';
 import NavItem from './NavItem';
 import NavLogo from './NavLogo';
 
-import { Link } from 'react-router-dom';
-
- class Header extends Component {
+class Header extends Component {
 
   render() {
 
@@ -19,10 +17,11 @@ import { Link } from 'react-router-dom';
                   <NavItem linkPath="/" linkName="home"/>
                   <NavItem linkPath="/about" linkName="about"/>
                   <NavItem linkPath="/apod" linkName="APOD"/>
+                  <NavItem linkPath="/searchimage" linkName="Search Image"/>
                   <NavItem linkPath="/marsrover" linkName="mars rover"/>
                   <NavItem linkPath="/map" linkName="map"/>
                   <NavItem linkPath="/epic" linkName="EPIC"/>
-                  <NavItem linkPath="/testcontext" linkName="Test Content"/>
+                  <NavItem linkPath="/insight" linkName="InSight"/>
                 </ul>
               </div>
             </nav>

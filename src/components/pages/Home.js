@@ -4,8 +4,7 @@ import Loader from '../Loader';
 function Home() {
   return (
     <div>
-      home vole
-      <Loader />
+      home
     </div>
   )
 }

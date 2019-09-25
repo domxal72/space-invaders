@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
-
-import { Link, NavLink } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 
 export class NavItem extends Component {
   render() {
@@ -9,7 +8,6 @@ export class NavItem extends Component {
 
     return (
       <li className="menu-item">
-        {/* <Link to={linkPath}>{linkName}</Link> */}
         <NavLink to={linkPath} activeClassName="active-nav-item">{linkName}</NavLink>
       </li>
     )

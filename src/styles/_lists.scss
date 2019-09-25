@@ -1,0 +1,29 @@
+.image-list {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.image-list-item {
+  position: relative;
+  width: 25%;
+  padding: 5px;
+  box-sizing: border-box;
+  &:hover .image-list-item-overlay{
+    display: block;
+  }
+  a {
+    position: relative;
+    
+  }
+}
+
+.image-list-item-overlay {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  display: none;
+  color: black;
+  background: white;
+  opacity: 0.8;
+}

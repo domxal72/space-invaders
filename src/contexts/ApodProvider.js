@@ -16,20 +16,17 @@ const ApodProvider = (props) => {
 
   const [ apodState, setApodState ] = useState(initialState)
 
+  // const { minDate, date, data } = apodState
+
   const { generalState, setLoading, removeLoading, showInfoMessage } = useContext(GeneralContext)
-
-  console.log(generalState)
-  // console.log(GeneralContext)
-
 
   const handleChange = (date) => {
     setApodState({ ...apodState, date: date });
   }
 
-  const getApod = () => {
+  const getApod = (date) => {
 
-    // first Apod is 1995-06-20
-    const formatedDate = moment(apodState.date).format('YYYY-MM-DD');
+    const formatedDate = moment(date).format('YYYY-MM-DD');
 
     setLoading();
 
@@ -37,17 +34,19 @@ const ApodProvider = (props) => {
     .then( (res) => {
       console.log(res);
       setApodState({ ...apodState, data: res.data })
-      // removeLoading()
+      removeLoading()
     })
-    .then( removeLoading() )
     .catch( () => {
-        showInfoMessage('Sorry, no data found for selected date, APOD API contains data for dates from 20/06/1995 to present day or yesterday', 'not-found');
+      if ( date > new Date() || date < new Date('1995-06-20') ) {
+        showInfoMessage(`Sorry, no data found for selected date: ${formatedDate}, APOD API contains data only for dates from 20/06/1995 to present day`, 'not-found');
+      }
         setApodState({ ...apodState, data: {} })
         console.log('fetch error')
       }
     )
     
   }
+
 
     return (
       <ApodContext.Provider

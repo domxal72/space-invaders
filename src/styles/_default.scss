@@ -5,14 +5,25 @@ body {
 }
 
 a {
-  color: white;
+  color: blue;
   text-decoration: none;
-
+  display: block;
   &:hover {
     text-decoration: underline;
+    cursor: pointer;
   }
+}
+
+header a {
+  color: white;
 }
 
 ul, li {
   list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.hidden {
+  display: none;
 }
