@@ -16,9 +16,7 @@ const ApodProvider = (props) => {
 
   const [ apodState, setApodState ] = useState(initialState)
 
-  // const { minDate, date, data } = apodState
-
-  const { generalState, setLoading, removeLoading, showInfoMessage } = useContext(GeneralContext)
+  const { generalState, setLoading, removeLoading, showInfoMessage, removeInfoMessage } = useContext(GeneralContext)
 
   const handleChange = (date) => {
     setApodState({ ...apodState, date: date });
@@ -26,37 +24,37 @@ const ApodProvider = (props) => {
 
   const getApod = (date) => {
 
-    const formatedDate = moment(date).format('YYYY-MM-DD');
-
     setLoading();
+
+    const formatedDate = moment(date).format('YYYY-MM-DD');
 
     axios.get(`https://api.nasa.gov/planetary/apod?date=${formatedDate}&api_key=${process.env.REACT_APP_NASA_API_KEY}`)
     .then( (res) => {
       console.log(res);
       setApodState({ ...apodState, data: res.data })
-      removeLoading()
+      removeLoading();
+      removeInfoMessage();
     })
-    .catch( () => {
+    .catch( (err) => {
       if ( date > new Date() || date < new Date('1995-06-20') ) {
         showInfoMessage(`Sorry, no data found for selected date: ${formatedDate}, APOD API contains data only for dates from 20/06/1995 to present day`, 'not-found');
+      } else {
+        showInfoMessage(`Sorry, unknown server error`, 'not-found')
       }
-        setApodState({ ...apodState, data: {} })
-        console.log('fetch error')
-      }
-    )
-    
+      setApodState({ ...apodState, data: {} })
+      console.log(err)
+    })
   }
 
-
-    return (
-      <ApodContext.Provider
-        value={
-          { apodState, getApod, handleChange, generalState }
-        }
-      >
-        {props.children}
-      </ApodContext.Provider>
-    )
+  return (
+    <ApodContext.Provider
+      value={
+        { apodState, getApod, handleChange, generalState }
+      }
+    >
+      {props.children}
+    </ApodContext.Provider>
+  )
 }
 
 export default ApodProvider

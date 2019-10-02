@@ -30,7 +30,7 @@ const InSight = (props) => {
           <td>{value.HWS ? value.HWS.mn.toFixed(1) : '-'}</td>
           <td>{value.HWS ? value.HWS.av.toFixed(1) : '-'}</td>
           <td>{value.HWS ? value.HWS.mx.toFixed(1) : '-'}</td>
-          <td>{value.WD ? value.WD.most_common.compass_point : '-'}</td>
+          <td>{value.WD && value.WD.most_common ? value.WD.most_common.compass_point : '-'}</td>
           <td>{value.PRE ? value.PRE.mn.toFixed(1) : '-'}</td>
           <td>{value.PRE ? value.PRE.av.toFixed(1) : '-'}</td>
           <td>{value.PRE ? value.PRE.mx.toFixed(1) : '-'}</td>
@@ -49,9 +49,10 @@ const InSight = (props) => {
 
   return (
     <div>
-      <p>InSight - NASA’s InSight Mars lander takes continuous weather measurements (temperature, wind, pressure) on the surface of Mars at Elysium Planitia, a flat, smooth plain near Mars’ equator.</p> 
-      <div className="table-container">
-        <table width="100%">
+      <h1>InSight - Mars weather measurements of past few days</h1>
+      <p>NASA’s InSight Mars lander takes continuous weather measurements (temperature, wind, pressure) on the surface of Mars at Elysium Planitia, a flat, smooth plain near Mars’ equator.</p> 
+      <div className="table-wrap">
+        <table width="100%" className="table">
           <thead>
             <tr>
               <th colSpan={2}>Time</th>

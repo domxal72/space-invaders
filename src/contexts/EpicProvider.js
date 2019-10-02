@@ -41,28 +41,45 @@ const EpicProvider = (props) => {
 
   const getEpic = () => {
 
-    let formatedDate = moment(date).format('YYYY-MM-DD');
-
     setLoading();
+
+    let formatedDate = moment(date).format('YYYY-MM-DD');
 
     axios.get( `https://api.nasa.gov/EPIC/api/${type[typeActive]}/date/${formatedDate}?api_key=${process.env.REACT_APP_NASA_API_KEY}` )
       .then( (res) => {
-        console.log(res.data)
         setEpicState({ ...epicState, data: res.data, currentSlide: 0 })
-      })
-      .then( removeLoading() )
-      .catch( () => {
-          showInfoMessage('Sorry, no EPIC data for selected date', 'not-found');
-          setEpicState({ ...epicState, data: [] })
-          console.log('fetch error')
+        removeLoading();
+        if ( res.data.length === 0 ){
+          showInfoMessage(`Sorry, no EPIC data found for selected date: ${formatedDate}, try another available date`, 'not-found');
         }
-      )
+      })
+      .catch( (err) => {
+        showInfoMessage('unexpected error', 'not-found');
+        setEpicState({ ...epicState, data: [] })
+        console.log(err)
+      })
+  }
+
+  const getLatestEpic = () => {
+
+    setLoading();
+
+    axios.get( `https://epic.gsfc.nasa.gov/api/natural?api_key=${process.env.REACT_APP_NASA_API_KEY}` )
+      .then( (res) => {
+        setEpicState({ ...epicState, date: new Date(res.data[0].date.split(' ')[0]), data: res.data, currentSlide: 0 })
+        removeLoading();
+      })
+      .catch( (err) => {
+        showInfoMessage('error', 'not-found');
+        setEpicState({ ...epicState, data: [] })
+        console.log(err)
+      })
   }
 
     return (
       <EpicContext.Provider
         value={
-          { epicState, getEpic, handleChange, generalState, setType, startSlideShow, handleFullImage, setEpicState }
+          { epicState, getEpic, getLatestEpic, handleChange, generalState, setType, startSlideShow, handleFullImage, setEpicState }
         }
       >
         {props.children}

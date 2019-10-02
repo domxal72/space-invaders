@@ -30,7 +30,7 @@ const GeneralProvider = (props) => {
   return (
     <GeneralContext.Provider
       value={
-        { generalState, setLoading, removeLoading, showInfoMessage, removeInfoMessage }
+        { generalState, setLoading, removeLoading, showInfoMessage, removeInfoMessage, setGeneralState }
       }
     >
     {props.children}

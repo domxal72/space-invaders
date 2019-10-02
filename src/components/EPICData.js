@@ -2,7 +2,10 @@ import React, { useContext, useEffect } from 'react';
 import moment from 'moment';
 
 // Contexts
+import InfoMsg from './InfoMsg';
+import Loader from './Loader';
 import { EpicContext } from '../contexts/EpicProvider';
+import { GeneralContext } from '../contexts/GeneralProvider';
 
 const EpicData = (props) => {
 
@@ -10,6 +13,8 @@ const EpicData = (props) => {
   // https://epic.gsfc.nasa.gov/about/api
 
   const { epicState, handleFullImage, getEpic, setEpicState } = useContext(EpicContext)
+
+  const { generalState: { infoMsg, loading } } = useContext(GeneralContext)
 
   const { date, data, type, typeLink, typeActive, currentSlide } = epicState
 
@@ -48,11 +53,12 @@ const EpicData = (props) => {
                   alt=""
                 /> 
                 : 
-                <p>no image</p>
+                <p></p>
 
   let listItems = data.map( (item, index) => (
                     <li key={item.identifier} >
                       <img 
+                        className="pointer"
                         src={`https://epic.gsfc.nasa.gov/archive/${type[typeActive]}/${formatedDateImg}/thumbs/epic_${typeLink[typeActive]}_${item.image.split('_')[2]}.jpg`} 
                         data-img-index={index} 
                         onClick={handleFullImage}
@@ -69,8 +75,13 @@ const EpicData = (props) => {
                     )
                   )
 
+  if (loading) {
+    return <Loader />
+  }
+
   return (
     <div>
+      <InfoMsg infoMsg={infoMsg} />
       <button className="start-slide-show" onClick={ () => slideShow(currentSlide) }>play</button>
       <button className="slideshow" onClick={ () => stopSlideShow() }>stop</button>
       <ul>

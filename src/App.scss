@@ -1,7 +1,12 @@
+@import './styles/reset';
 @import './styles/vars';
 @import './styles/colors';
+@import './styles/layout';
 @import './styles/default';
 @import './styles/lists';
+@import './styles/forms';
+@import './styles/tables';
+@import './styles/button';
 
 
 .App {
@@ -24,6 +29,7 @@ img {
 header {
   position: relative;
   width: 100%;
+  z-index: 10;
 }
 
 .logo-container {

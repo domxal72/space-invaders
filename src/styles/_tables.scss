@@ -1,0 +1,16 @@
+.table-wrap {
+  overflow-x: auto; 
+  overflow-y: hidden; 
+}
+
+.table {
+  min-width: 1000px;
+}
+
+td, th {
+  background-color: #ddd;
+  border: 1px solid #5b616b;
+  font-weight: 400;
+  padding: 1rem;
+  text-align: center;
+}

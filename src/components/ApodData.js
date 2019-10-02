@@ -6,16 +6,18 @@ import InfoMsg from './InfoMsg';
 
 // Contexts
 import { ApodContext } from '../contexts/ApodProvider';
+import { GeneralContext } from '../contexts/GeneralProvider';
 
 const ApodTestChild = (props) => {
 
-  const { apodState: { data }, generalState: { loading, infoMsg } } = useContext(ApodContext)
+  // const { apodState: { data }, generalState: { loading, infoMsg } } = useContext(ApodContext)
+  const { apodState: { data } } = useContext(ApodContext)
+
+  const { generalState: { loading, infoMsg } } = useContext(GeneralContext)
 
   const { title, date, url, explanation, media_type } = data;
 
   let media = '';
-
-  let apodStyle = {backgroundColor: 'none'}
 
   switch(media_type) {
     case 'image':
@@ -37,12 +39,13 @@ const ApodTestChild = (props) => {
       media = 'unidentified MIME-type';
   }
 
-  if(loading) {
+  if (loading) {
     return <Loader />
   }
     
   return (
-    <div style={apodStyle}>
+    <div>
+      <InfoMsg infoMsg={infoMsg} />
       { title 
         ?
         <div>
@@ -53,9 +56,9 @@ const ApodTestChild = (props) => {
           <p><a target="_blank" href={url}><b>original image</b></a></p>
         </div>
         :  
-        <p>select APOD date</p>
+        <p></p>
       }
-      <InfoMsg infoMsg={infoMsg} />
+      
       
     </div>
   )

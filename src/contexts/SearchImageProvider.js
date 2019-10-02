@@ -25,23 +25,26 @@ const SearchImageProvider = (props) => {
   const getImages = (query, page) => {
 
     if ( query === '' ) {
-      // showInfoMessage('Empty search', 'not-found');
+      showInfoMessage('Empty search', 'not-found');
       return
     }
 
-    // removeInfoMessage();
-
     setLoading()
+
     axios.get(`https://images-api.nasa.gov/search?q=${query}&media_type=image&page=${page}`)
-    .then( (res) => {
-      setSearchImageState({ ...searchImageState, data: res.data })
-    })
-    .then( removeLoading() )
-    .catch( () => {
-        showInfoMessage('error', 'not-found');
+      .then( (res) => {
+        setSearchImageState({ ...searchImageState, data: res.data })
+        removeLoading();
+        removeInfoMessage();
+        // if ( res.data.collection.items.length === 0 ) {
+        //   showInfoMessage('no results', 'not-found');
+        // }
+        console.log(res.data)
+      })
+      .catch( () => {
+        showInfoMessage('error ', 'not-found');
         setSearchImageState({ ...searchImageState, data: {} })
-      }
-    )
+      })
   }
 
   const getImageDetail = (imageId) => {
@@ -49,15 +52,14 @@ const SearchImageProvider = (props) => {
     setLoading();
 
     axios.get(`https://images-api.nasa.gov/asset/${imageId}`)
-    .then( (res) => {
-      setSearchImageState({ ...searchImageState, imageDetail: res.data })
-    })
-    .then( removeLoading() )
-    .catch( () => {
+      .then( (res) => {
+        setSearchImageState({ ...searchImageState, imageDetail: res.data })
+        removeLoading()
+      })
+      .catch( () => {
         showInfoMessage('error', 'not-found');
         setSearchImageState({ ...searchImageState, data: {} })
-      }
-    )
+      })
   }
 
   const prevPage = (page) => {

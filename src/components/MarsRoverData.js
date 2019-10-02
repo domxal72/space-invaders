@@ -1,35 +1,78 @@
 import React, { useContext } from 'react'
-import moment from 'moment';
 
 // Contexts
 import { MarsRoverContext } from '../contexts/MarsRoverProvider';
+import { GeneralContext } from '../contexts/GeneralProvider';
 
+import Loader from './Loader';
 const MarsRoverData = () => {
 
-  const { marsRoverState } = useContext(MarsRoverContext)
+  const { marsRoverState, selectCamera } = useContext(MarsRoverContext)
+
+  const { generalState: {loading} } = useContext(GeneralContext)
 
   const {  
-    minDate,
-    date,
     data,
     rover,
     roverSet,
-    roverManifest 
+    cameraSet,
+    roverManifest,
+    cameraDesc 
   } = marsRoverState
 
-  if ( Object.keys(data).length === 0 && data.constructor === Object ) {
-    return 'Select Rover and camera';
+  let cameraList = roverManifest[rover[roverSet]].cameraList.map( (item, index) => (
+    <option key={index} value={item}>{item}</option>
+  ) )
+
+  let photoList = [];
+  let photoListFilter = [];
+
+  if ( data.photos.length === 0 ) {
+    photoList = 'No photos for selected date. Try another available date';
+  } else {
+    photoListFilter = data.photos.filter( (photo) => {
+      return cameraSet === photo.camera.name || cameraSet === 'all'
+    })
+    photoList = photoListFilter.map( (photo) => {
+      return (
+              <li className="image-list-item" key={photo.id}>
+                <a target="_blank" href={photo.img_src}>
+                  <img src={photo.img_src} alt=""/>
+                </a>
+              </li>
+              )
+     } )
   }
 
+  let cameraDescription = cameraDesc.filter((cam) => {
+    return cam.name === cameraSet;
+  })
 
-  let photoList = data.photos.map( (photo) => (
-    <li key={photo.id}><img src={photo.img_src} alt=""/></li>
-  ))
+  let resultsInfo = data.photos.length !== 0 
+                    ? 
+                    <div>
+                      <div className="input-wrapper">
+                        <label htmlFor="camera-select">Select camera:</label>
+                        <select className="input-wrapper__select" name="camera-select" id="camera-select" onChange={selectCamera} >
+                          {cameraList}
+                        </select>
+                        <div className="custom-select-mark"></div>
+                        <div>{ cameraDescription.length !== 0 ? `${cameraDescription[0].name} - ${cameraDescription[0].description}` : ''}</div>
+                      </div>
+                      <div>showing {photoListFilter.length} photos from camera: {cameraSet} of {data.photos.length} total</div>
+                    </div>
+                    : 
+                    <div></div>
+
+  if (loading) {
+    return <Loader />
+  }
 
   return (
     <div>
-      <ul>
-        {/* {photoList} */}
+      { resultsInfo }
+      <ul className="image-list">
+        {photoList}
       </ul>
     </div>
   )

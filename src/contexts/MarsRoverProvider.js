@@ -10,7 +10,6 @@ const MarsRoverProvider = (props) => {
 
   // rover manifest
 
-
  const initialState = {
     minDate: new Date('1995-06-20'),
     date: new Date(),
@@ -77,6 +76,17 @@ const MarsRoverProvider = (props) => {
       }
     },
     cameraSet: 'all',
+    cameraDesc: [
+      {name: 'FHAZ', description: 'Front Hazard Avoidance Camera' },
+      {name: 'RHAZ', description: 'Rear Hazard Avoidance Camera' },
+      {name: 'MAST', description: 'Mast Camera' },
+      {name: 'CHEMCAM', description: 'Chemistry and Camera Complex' },
+      {name: 'MAHLI', description: 'Mars Hand Lens Imager' },
+      {name: 'MARDI', description: 'Mars Descent Imager' },
+      {name: 'NAVCAM', description: 'Navigation Camera' },
+      {name: 'PANCAM', description: 'Panoramic Camera' },
+      {name: 'MINITES', description: 'Miniature Thermal Emission Spectrometer (Mini-TES)' },
+    ]
   }
 
   const [ marsRoverState, setMarsRoverState ] = useState(initialState)
@@ -96,7 +106,9 @@ const MarsRoverProvider = (props) => {
   const { generalState, setLoading, removeLoading, showInfoMessage } = useContext(GeneralContext)
 
   // Mars rover methods
-  const getMarsRover = () => {
+  const getMarsRover = async () => {
+
+    setLoading();
 
     let formatedDate = '';
 
@@ -118,12 +130,21 @@ const MarsRoverProvider = (props) => {
     // Rover manifest data url
     // let photoManifest = `https://api.nasa.gov/mars-photos/api/v1/manifests/${rover[roverSet]}?&api_key=${process.env.REACT_APP_NASA_API_KEY}`
 
-    // axios.get( `https://api.nasa.gov/mars-photos/api/v1/rovers/${rover[roverSet]}/photos?${formatedDate}&${camera}&api_key=${process.env.REACT_APP_NASA_API_KEY}` )
-    axios.get( `https://api.nasa.gov/mars-photos/api/v1/rovers/${rover[roverSet]}/photos?${formatedDate}&${camera}api_key=${process.env.REACT_APP_NASA_API_KEY}` )
-    .then( (res) => {
-      console.log(res.data);
-      setMarsRoverState({ ...marsRoverState, data: res.data })
-      })
+    let res = await axios.get( `https://api.nasa.gov/mars-photos/api/v1/rovers/${rover[roverSet]}/photos?${formatedDate}&${camera}api_key=${process.env.REACT_APP_NASA_API_KEY}` )
+        console.log(res);
+        console.log(res.data);
+        setMarsRoverState({ ...marsRoverState, data: res.data })
+        removeLoading()
+
+    // axios.get( `https://api.nasa.gov/mars-photos/api/v1/rovers/${rover[roverSet]}/photos?${formatedDate}&${camera}api_key=${process.env.REACT_APP_NASA_API_KEY}` )
+    //   .then( (res) => {
+    //     console.log(res.data);
+    //     setMarsRoverState({ ...marsRoverState, data: res.data })
+    //     removeLoading()
+    //   })
+    //   .catch( (err) => {
+    //     console.log(err)
+    //   })
   }
 
   const handleChange = (date) => {

@@ -54,7 +54,7 @@ const SearchImage = () => {
       return
     });
 
-    resultsNumber = data.collection.metadata.total_hits;
+    resultsNumber = data.collection.metadata.total_hits !== 0 ? `Total results: ${data.collection.metadata.total_hits}` : `no results found`;
     pageNum = 'page: ' + page;
   } 
 
@@ -62,22 +62,30 @@ const SearchImage = () => {
     getImages(query, page)
   }, [page] )
 
+  const submitSearchImage = (e) => {
+    e.preventDefault();
+    getImages(query, 1)
+  }
+
   if(loading) {
     return <Loader />
   }
 
   return (
     <div>
-      <input type="text" onChange={setQuery} value={query} />
-      <button onClick={() => {getImages(query, 1)}}>Get Images</button>
-      <button onClick={() => {prevPage(page)} }>Prev page</button>
-      <button onClick={() => {nextPage(page)} }>Next page</button>
+      <form action="">
+        <input type="text" onChange={setQuery} value={query} />
+        <input type="submit" value="Get Images" onClick={submitSearchImage} />
+      </form>
+        <button onClick={() => {prevPage(page)} }>Prev page</button>
+        <button onClick={() => {nextPage(page)} }>Next page</button>
       <div>{resultsNumber}</div>
       <p>{pageNum}</p>
+      <InfoMsg infoMsg={infoMsg} />
       <ul className="image-list">
         {imageList}
       </ul>
-      <InfoMsg infoMsg={infoMsg} />
+      
     </div>
   )
 }
