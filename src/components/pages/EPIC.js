@@ -9,13 +9,12 @@ import "react-datepicker/dist/react-datepicker.css";
 
 // Contexts
 import { EpicContext } from '../../contexts/EpicProvider';
-import { GeneralContext } from '../../contexts/GeneralProvider';
 
 const Epic = (props) => {
 
   const { epicState, setEpicState, getEpic, getLatestEpic, handleChange, setType } = useContext(EpicContext);
 
-  const { minDate, data, date, type } = epicState
+  const { minDate, date, type } = epicState
 
   let optionList = type.map((option, index) => (
     <option key={index} value={index}>{option}</option>
@@ -26,10 +25,6 @@ const Epic = (props) => {
     e.preventDefault();
     getEpic();
   }
-
-  // if ( data.length === 0 ){
-  //   showInfoMessage(`Sorry, no EPIC data found for selected date ${date}`, 'not-found');
-  // }
   
   useEffect( () => {
     getLatestEpic();
@@ -62,7 +57,6 @@ const Epic = (props) => {
         />
         <input type="submit" value="Get Photos" onClick={submitEpic} />
       </form>
-      {/* {content} */}
       <EpicData />
     </div>
   )

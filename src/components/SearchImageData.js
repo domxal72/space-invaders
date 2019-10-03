@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, } from 'react'
+import React, { useContext } from 'react'
 import { Link } from 'react-router-dom';
 
 import Loader from './Loader'
@@ -28,7 +28,6 @@ function SearchImageData() {
         keywords,
         photographer,
         media_type,
-        href,
       } = item.data[0];
 
       if ( media_type === 'image' ) {
@@ -48,7 +47,7 @@ function SearchImageData() {
                 </li>
         ) 
       }
-      return
+      return null
     });
 
     resultsNumber = data.collection.metadata.total_hits !== 0 ? `Total results: ${data.collection.metadata.total_hits}` : `no results found`;

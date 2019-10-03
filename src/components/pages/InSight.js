@@ -38,10 +38,8 @@ const InSight = (props) => {
         </tr>
       ) 
     }
-
+    return null
   });
-
-  console.table(data)
 
   useEffect( () => {
     getInSight()

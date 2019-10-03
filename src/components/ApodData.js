@@ -53,7 +53,7 @@ const ApodTestChild = (props) => {
           <h1>{title}</h1>
           <h1>{date}</h1>
           <p>{explanation}</p>
-          <p><a target="_blank" href={url}><b>original image</b></a></p>
+          <p><a rel="noopener noreferrer" target="_blank" href={url}><b>original image</b></a></p>
         </div>
         :  
         <p></p>

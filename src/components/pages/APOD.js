@@ -3,7 +3,6 @@ import React, { useContext, useEffect } from 'react';
 // Components
 import ApodData from '../ApodData';
 import DatePicker from 'react-datepicker';
-import InfoMsg from '../InfoMsg';
 
 // Helpers
 import { addDays } from "../helpers/Helpers";

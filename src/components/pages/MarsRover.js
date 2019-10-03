@@ -1,21 +1,18 @@
 import React, { useContext, useEffect } from 'react'
 import DatePicker from 'react-datepicker';
 
-import Loader from '../Loader';
-
 // Datepicker CSS styles
 import "react-datepicker/dist/react-datepicker.css";
 
 // Contexts
 import { MarsRoverContext } from '../../contexts/MarsRoverProvider';
-import { GeneralContext } from '../../contexts/GeneralProvider';
 import MarsRoverData from '../MarsRoverData';
 
 const MarsRover = (props) => {
 
-  const { marsRoverState, changeState, handleSol, selectDateType, selectRover, selectCamera, handleChange, getMarsRover } = useContext(MarsRoverContext)
+  const { marsRoverState, handleSol, selectDateType, selectRover, handleChange, getMarsRover } = useContext(MarsRoverContext)
 
-  const { generalState: {loading} } = useContext(GeneralContext)
+
 
   const {  
     date,
