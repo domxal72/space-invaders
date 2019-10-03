@@ -47,8 +47,10 @@ const Apod = ( props ) => {
         />
         <input className='button button--submit' type="submit" value="Get APOD" onClick={submitApod} />
       </form>
-      <button className='button' onClick={ () => ( getApod( addDays(date, -1) ) ) }>Previous day</button>
-      <button className='button' onClick={ () => ( getApod( addDays(date, 1) ) ) }>Next day</button>
+      <div className="my-m">
+        <button className='button button--default' onClick={ () => ( getApod( addDays(date, -1) ) ) }>Previous day</button>
+        <button className='button button--default' onClick={ () => ( getApod( addDays(date, 1) ) ) }>Next day</button>
+      </div>
       <ApodData />
     </div>
   )

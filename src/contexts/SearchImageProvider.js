@@ -63,7 +63,11 @@ const SearchImageProvider = (props) => {
   }
 
   const prevPage = (page) => {
-    setSearchImageState({ ...searchImageState, page: page - 1 })
+    if ( page > 1 ) {
+      setSearchImageState({ ...searchImageState, page: page - 1 })
+    } else {
+      return
+    }
   }
 
   const nextPage = (page) => {

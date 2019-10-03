@@ -63,7 +63,7 @@ class App extends Component {
 
             <Route path="/marsrover" component={MarsRover} />
 
-            <Route path="/map" component={Maps} />
+            {/* <Route path="/map" component={Maps} /> */}
 
           </Switch>
           </InSightProvider>

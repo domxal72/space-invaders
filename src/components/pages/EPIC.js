@@ -48,6 +48,7 @@ const Epic = (props) => {
         <select name="epic-type" id="" onChange={ (e) => { setType(e.target.value) } }>
           {optionList}
         </select>
+        <label htmlFor="epic-type">Select date:</label>
         <DatePicker
           dateFormat="yyyy/MM/dd"
           selected={date}

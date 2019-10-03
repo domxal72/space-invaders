@@ -1,62 +1,16 @@
 import React, { useContext, useEffect, } from 'react'
 
 // Components
-import Loader from '../Loader'
-import InfoMsg from '../InfoMsg';
-
-import { Link } from 'react-router-dom';
-
-// Helpers
-import { isObjectEmpty } from '../helpers/Helpers';
+import SearchImageData from '../SearchImageData';
 
 // Contexts
 import { SearchImageContext } from '../../contexts/SearchImageProvider';
 
 const SearchImage = () => {
 
-  const { searchImageState, getImages, prevPage, nextPage, setQuery, incPage, generalState: { loading, infoMsg } } = useContext(SearchImageContext)
+  const { searchImageState, getImages, prevPage, nextPage, setQuery } = useContext(SearchImageContext)
 
-  const { query, data, page } = searchImageState;
-
-  let imageList, resultsNumber, pageNum = '';
-
-  if ( !isObjectEmpty(data) ) {
-    imageList = data.collection.items.map( item => {
-      const { 
-        title,
-        location,
-        nasa_id,
-        description,
-        date_created,
-        keywords,
-        photographer,
-        media_type,
-        href,
-      } = item.data[0];
-
-      if ( media_type === 'image' ) {
-        return ( <li className="image-list-item" key={nasa_id}>
-                  <Link to={`/imagedetail/${nasa_id}`}>
-                    <img src={item.links[0].href} alt=""/>
-                    <div className="image-list-item-overlay">
-                      <div>Title: {title}</div>
-                      <div>Location: {location}</div>
-                      <div>ID: {nasa_id}</div>
-                      <div>Description: {description.substr(0, 150) + '...'}</div>
-                      <div>Date created: {date_created}</div>
-                      <div>Keywords: {keywords}</div>
-                      <div>Photographer: {photographer}</div>
-                    </div>
-                  </Link>
-                </li>
-        ) 
-      }
-      return
-    });
-
-    resultsNumber = data.collection.metadata.total_hits !== 0 ? `Total results: ${data.collection.metadata.total_hits}` : `no results found`;
-    pageNum = 'page: ' + page;
-  } 
+  const { query, page } = searchImageState;
 
   useEffect( () => {
     getImages(query, page)
@@ -67,25 +21,18 @@ const SearchImage = () => {
     getImages(query, 1)
   }
 
-  if(loading) {
-    return <Loader />
-  }
-
   return (
     <div>
+      <h1>NASA Image and Video Library</h1>
+      <p>Usage: Type keyword and click the button to search for images. Results are limited for 100 images per page.</p>
+      <p>For more than 100 total results, use buttons to navigate pages</p>
       <form action="">
         <input type="text" onChange={setQuery} value={query} />
         <input type="submit" value="Get Images" onClick={submitSearchImage} />
       </form>
-        <button onClick={() => {prevPage(page)} }>Prev page</button>
+        <button onClick={() => {prevPage(page)} }>Previous page</button>
         <button onClick={() => {nextPage(page)} }>Next page</button>
-      <div>{resultsNumber}</div>
-      <p>{pageNum}</p>
-      <InfoMsg infoMsg={infoMsg} />
-      <ul className="image-list">
-        {imageList}
-      </ul>
-      
+      <SearchImageData />
     </div>
   )
 }

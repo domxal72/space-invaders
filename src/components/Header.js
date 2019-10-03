@@ -14,12 +14,12 @@ class Header extends Component {
               <NavLogo />
               <div className="main-menu-container">
                 <ul className="main-menu">
-                  <NavItem linkPath="/" linkName="home"/>
-                  <NavItem linkPath="/about" linkName="about"/>
+                  <NavItem linkPath="/" linkName="Home"/>
+                  <NavItem linkPath="/about" linkName="About"/>
                   <NavItem linkPath="/apod" linkName="APOD"/>
                   <NavItem linkPath="/searchimage" linkName="Search Image"/>
-                  <NavItem linkPath="/marsrover" linkName="mars rover"/>
-                  <NavItem linkPath="/map" linkName="map"/>
+                  <NavItem linkPath="/marsrover" linkName="Mars Rover"/>
+                  {/* <NavItem linkPath="/map" linkName="map"/> */}
                   <NavItem linkPath="/epic" linkName="EPIC"/>
                   <NavItem linkPath="/insight" linkName="InSight"/>
                 </ul>
