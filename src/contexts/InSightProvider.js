@@ -1,5 +1,4 @@
 import React, { createContext, useState, useContext } from 'react'
-import moment from 'moment';
 import axios from 'axios';
 import { GeneralContext } from './GeneralProvider';
 
@@ -15,7 +14,7 @@ const InSightContextProvider = (props) => {
 
   const [ inSightState, setInSightContext ] = useState(initialState)
 
-  const { generalState, setLoading, removeLoading, showInfoMessage } = useContext(GeneralContext)
+  const { generalState, removeLoading, showInfoMessage } = useContext(GeneralContext)
 
 
   const getInSight = () => {

@@ -92,18 +92,14 @@ const MarsRoverProvider = (props) => {
   const [ marsRoverState, setMarsRoverState ] = useState(initialState)
 
   const {  
-    minDate,
     date,
     sol,
-    dateType,
     dateTypeSet,
-    data,
     rover,
     roverSet,
-    roverManifest 
   } = marsRoverState
 
-  const { generalState, setLoading, removeLoading, showInfoMessage } = useContext(GeneralContext)
+  const { generalState, setLoading, removeLoading } = useContext(GeneralContext)
 
   // Mars rover methods
   const getMarsRover = async () => {

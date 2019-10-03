@@ -13,7 +13,6 @@ import ImageDetail from './components/ImageDetail'
 import Home from "./components/pages/Home";
 import About from "./components/pages/About";
 import Apod from "./components/pages/Apod";
-// import Maps from "./components/pages/Maps";
 import MarsRover from "./components/pages/MarsRover";
 import Epic from "./components/pages/Epic";
 import SearchImage from "./components/pages/SearchImage";

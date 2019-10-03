@@ -65,7 +65,8 @@ const EpicData = (props) => {
                         alt="" 
                       />
                       <p>{item.date.split(" ")[1]}</p>
-                      <a 
+                      <a
+                        rel="noopener noreferrer"
                         target="_blank" 
                         href={`https://epic.gsfc.nasa.gov/archive/${type[typeActive]}/${formatedDateImg}/png/epic_${typeLink[typeActive]}_${item.image.split('_')[2]}.png`}
                       >

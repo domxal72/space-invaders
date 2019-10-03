@@ -36,7 +36,7 @@ const MarsRoverData = () => {
     photoList = photoListFilter.map( (photo) => {
       return (
               <li className="image-list-item" key={photo.id}>
-                <a target="_blank" href={photo.img_src}>
+                <a rel="noopener noreferrer" target="_blank" href={photo.img_src}>
                   <img src={photo.img_src} alt=""/>
                 </a>
               </li>

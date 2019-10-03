@@ -21,8 +21,8 @@ const ImageDetail = ( { match } ) => {
         ? 
         <Fragment>
           <img src={imageDetail.collection.items[2].href} alt=""/>
-          <a target="_blank" href={imageDetail.collection.items[1].href}>Show large</a>
-          <a target="_blank" href={imageDetail.collection.items[0].href}>Show original</a>
+          <a rel="noopener noreferrer" target="_blank" href={imageDetail.collection.items[1].href}>Show large</a>
+          <a rel="noopener noreferrer" target="_blank" href={imageDetail.collection.items[0].href}>Show original</a>
         </Fragment>
         : 
         <p>No image selected</p>
