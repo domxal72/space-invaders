@@ -27,9 +27,14 @@ const MarsRover = (props) => {
     getMarsRover()
   }, [] )
     
-  let roverList = marsRoverState.rover.map( (item, index) => (
-    <option key={index} value={index}>{item}</option>
-  ) )
+  let roverList = marsRoverState.rover.map( (item, index) => {
+    if ( index === roverSet ) {
+      return <option key={index} value={index}>{item}</option>
+      // return <option key={index} value={null}>{item}</option>
+    } else {
+      return <option key={index} value={index}>{item}</option>
+    }
+   } )
 
   let dateTypeList = marsRoverState.dateType.map( (item, index) => (
     <option key={index} value={index}>{item}</option>
@@ -81,6 +86,7 @@ const MarsRover = (props) => {
         <div className="grid">
           <div className="input-wrapper" >
             <label htmlFor="rover-select">Select rover:</label>
+            {/* <select className="input-wrapper__select" name="rover-select" id="rover-select" onChange={selectRover} defaultValue={roverSet} > */}
             <select className="input-wrapper__select" name="rover-select" id="rover-select" onChange={selectRover} >
               { roverList }
             </select>
