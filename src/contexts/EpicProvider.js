@@ -3,6 +3,8 @@ import moment from 'moment';
 import axios from 'axios';
 import { GeneralContext } from './GeneralProvider';
 
+import { apiKey } from '../components/helpers/Globals';
+
 export const EpicContext = createContext();
 
 const EpicProvider = (props) => {
@@ -45,7 +47,7 @@ const EpicProvider = (props) => {
 
     let formatedDate = moment(date).format('YYYY-MM-DD');
 
-    axios.get( `https://api.nasa.gov/EPIC/api/${type[typeActive]}/date/${formatedDate}?api_key=${process.env.REACT_APP_NASA_API_KEY}` )
+    axios.get( `https://api.nasa.gov/EPIC/api/${type[typeActive]}/date/${formatedDate}?api_key=${apiKey}` )
       .then( (res) => {
         setEpicState({ ...epicState, data: res.data, currentSlide: 0 })
         removeLoading();
@@ -64,7 +66,7 @@ const EpicProvider = (props) => {
 
     setLoading();
 
-    axios.get( `https://epic.gsfc.nasa.gov/api/natural?api_key=${process.env.REACT_APP_NASA_API_KEY}` )
+    axios.get( `https://epic.gsfc.nasa.gov/api/natural?api_key=${apiKey}` )
       .then( (res) => {
         setEpicState({ ...epicState, date: new Date(res.data[0].date.split(' ')[0]), data: res.data, currentSlide: 0 })
         removeLoading();

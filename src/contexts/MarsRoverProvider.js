@@ -3,6 +3,8 @@ import moment from 'moment';
 import axios from 'axios';
 import { GeneralContext } from './GeneralProvider';
 
+import { apiKey } from '../components/helpers/Globals';
+
 export const MarsRoverContext = createContext();
 
 
@@ -126,7 +128,7 @@ const MarsRoverProvider = (props) => {
     // Rover manifest data url
     // let photoManifest = `https://api.nasa.gov/mars-photos/api/v1/manifests/${rover[roverSet]}?&api_key=${process.env.REACT_APP_NASA_API_KEY}`
 
-    let res = await axios.get( `https://api.nasa.gov/mars-photos/api/v1/rovers/${rover[roverSet]}/photos?${formatedDate}&${camera}api_key=${process.env.REACT_APP_NASA_API_KEY}` )
+    let res = await axios.get( `https://api.nasa.gov/mars-photos/api/v1/rovers/${rover[roverSet]}/photos?${formatedDate}&${camera}api_key=${apiKey}` )
         console.log(res);
         console.log(res.data);
         setMarsRoverState({ ...marsRoverState, data: res.data })

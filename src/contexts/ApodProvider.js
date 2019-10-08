@@ -3,6 +3,8 @@ import moment from 'moment';
 import axios from 'axios';
 import { GeneralContext } from './GeneralProvider';
 
+import { apiKey } from '../components/helpers/Globals';
+
 export const ApodContext = createContext();
 
 
@@ -28,7 +30,8 @@ const ApodProvider = (props) => {
 
     const formatedDate = moment(date).format('YYYY-MM-DD');
 
-    axios.get(`https://api.nasa.gov/planetary/apod?date=${formatedDate}&api_key=${process.env.REACT_APP_NASA_API_KEY}`)
+    // axios.get(`https://api.nasa.gov/planetary/apod?date=${formatedDate}&api_key=${process.env.REACT_APP_NASA_API_KEY}`)
+    axios.get(`https://api.nasa.gov/planetary/apod?date=${formatedDate}&api_key=${apiKey}`)
     .then( (res) => {
       console.log(res);
       setApodState({ ...apodState, data: res.data })
